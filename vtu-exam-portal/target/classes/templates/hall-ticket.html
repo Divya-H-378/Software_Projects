@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VTU Official Admit Card - Print Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .hall-ticket-card {
+                box-shadow: none;
+                border: 2px solid #000000;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: #f1f5f9;">
+
+    <div class="container my-4 text-center no-print">
+        <button onclick="window.print();" class="btn btn-vtu-primary px-4 py-2 me-2">🖨️ Print / Save as PDF</button>
+        <a href="/student-dashboard" class="btn btn-vtu-outline">Return to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="vtu-card hall-ticket-card">
+                    <!-- Watermark background -->
+                    <div class="hall-ticket-watermark">VTU ORIGINAL</div>
+
+                    <!-- Header Banner -->
+                    <div class="row align-items-center mb-4 border-bottom pb-4">
+                        <div class="col-md-2 text-center">
+                            <div class="fs-1">🎓</div>
+                        </div>
+                        <div class="col-md-10 text-center text-md-start">
+                            <h4 class="fw-bold m-0" style="color: var(--vtu-navy);">Visvesvaraya Technological University</h4>
+                            <p class="text-secondary small m-0 uppercase">Jnana Sangama, Belagavi, Karnataka - 590018</p>
+                            <span class="badge bg-primary mt-2 uppercase">Official Examination Hall Ticket</span>
+                        </div>
+                    </div>
+
+                    <!-- Candidate details -->
+                    <h5 class="fw-bold mb-3" style="color: var(--vtu-navy);">Candidate Information Profile</h5>
+                    <table class="table table-bordered mb-4">
+                        <tbody>
+                            <tr>
+                                <th class="bg-light w-25">University Seat No (USN)</th>
+                                <td class="fw-bold text-danger" th:text="${student.usn}"></td>
+                                <th class="bg-light w-25">Candidate Name</th>
+                                <td class="fw-bold" th:text="${student.name}"></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">College Center Code</th>
+                                <td th:text="${student.collegeCode}"></td>
+                                <th class="bg-light">Academic Branch</th>
+                                <td th:text="${student.branch}"></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Active Semester</th>
+                                <td th:text="${student.semester}"></td>
+                                <th class="bg-light">Exam Center Code</th>
+                                <td th:text="${student.collegeCode} + ' - EXAM ROOMS'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Subject Details schedule table -->
+                    <h5 class="fw-bold mb-3" style="color: var(--vtu-navy);">Registered Subject Details</h5>
+                    <table class="table table-bordered text-center mb-5">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Sl. No</th>
+                                <th>Subject Code</th>
+                                <th>Course Title</th>
+                                <th>Schedule Date</th>
+                                <th>Time Session</th>
+                                <th>Invigilator Signature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="sub, stat : ${app.appliedSubjects}">
+                                <td th:text="${stat.count}"></td>
+                                <td class="fw-bold text-primary" th:text="${sub.subjectCode}"></td>
+                                <td class="text-start" th:text="${sub.subjectName}"></td>
+                                <td>25-Aug-2026</td>
+                                <td>09:30 AM - 12:30 PM</td>
+                                <td style="width: 150px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Signatures footer layout -->
+                    <div class="row mt-5 pt-4 align-items-end justify-content-between">
+                        <div class="col-md-3 text-center">
+                            <div style="border: 1px solid var(--vtu-border-color); width: 110px; height: 110px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: #94A3B8; border-radius: 6px;">
+                                COLLEGE SEAL
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="border-top pt-2 fw-bold small">Signature of Candidate</div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="border-top pt-2 fw-bold small text-primary">Registrar (Evaluation)<br>VTU Belagavi</div>
+                        </div>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="border-top mt-5 pt-4">
+                        <h6 class="fw-bold text-dark mb-2">Instructions to Candidate:</h6>
+                        <ol class="small text-secondary m-0 ps-3">
+                            <li>Candidates must carry this Hall Ticket and college ID card to the exam hall on demand.</li>
+                            <li>Electronic devices (mobiles, smartwatches, programmable calculators) are strictly prohibited.</li>
+                            <li>Malpractice of any form will be booked under VTU Malpractice Act guidelines.</li>
+                            <li>Any discrepancies on this ticket must be reported to the college coordinator immediately.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

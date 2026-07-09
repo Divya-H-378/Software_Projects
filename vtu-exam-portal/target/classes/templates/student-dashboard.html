@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard - VTU Prexam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand fw-bold text-white" href="#">🎓 VTU Prexam Portal</a>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-white-50 small d-none d-md-inline" th:text="${student.name} + ' (' + ${student.usn} + ')'"></span>
+                <a href="/logout" class="btn btn-sm btn-danger px-3">Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <!-- Student Profile Information -->
+        <div class="vtu-card">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h2 class="fw-bold mb-1" style="color: var(--vtu-navy);">Student Control Panel</h2>
+                    <p class="text-secondary small m-0">Verify your registered details and check your exam status.</p>
+                </div>
+                <div>
+                    <a href="/apply-exam" class="btn btn-vtu-gold">📝 Register for Semester Exam</a>
+                </div>
+            </div>
+
+            <hr class="my-4" style="border-color: var(--vtu-border-color);">
+
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <div class="text-secondary small fw-bold">USN</div>
+                    <div class="fw-bold text-primary mt-1" th:text="${student.usn}"></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-secondary small fw-bold">Full Name</div>
+                    <div class="fw-bold mt-1" th:text="${student.name}"></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-secondary small fw-bold">College Code</div>
+                    <div class="fw-bold mt-1" th:text="${student.collegeCode}"></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-secondary small fw-bold">Department / Branch</div>
+                    <div class="fw-bold mt-1" th:text="${student.branch}"></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-secondary small fw-bold">Active Semester</div>
+                    <div class="fw-bold mt-1" th:text="'Sem ' + ${student.semester}"></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-secondary small fw-bold">Contact Number</div>
+                    <div class="fw-bold mt-1" th:text="${student.phone}"></div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="text-secondary small fw-bold">Email Address</div>
+                    <div class="fw-bold mt-1" th:text="${student.email}"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application History -->
+        <div class="vtu-card">
+            <h4 class="fw-bold mb-4" style="color: var(--vtu-navy);">My Exam Applications</h4>
+
+            <!-- Empty applications state -->
+            <div th:if="${#lists.isEmpty(applications)}" class="text-center py-5 text-secondary">
+                <div class="fs-1 mb-2">📭</div>
+                <p class="m-0">No exam applications submitted for this semester cycle.</p>
+                <a href="/apply-exam" class="btn btn-link text-primary mt-2">Submit application now</a>
+            </div>
+
+            <!-- Table visual -->
+            <div th:if="${!#lists.isEmpty(applications)}" class="table-responsive">
+                <table class="table table-vtu">
+                    <thead>
+                        <tr>
+                            <th>Ref ID</th>
+                            <th>Submission Date</th>
+                            <th>Registered Subjects</th>
+                            <th>Approval Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="app : ${applications}">
+                            <td class="fw-bold text-primary" th:text="'#VTU-' + ${app.id}"></td>
+                            <td th:text="${#dates.format(app.appliedDate, 'dd-MMM-yyyy HH:mm')}"></td>
+                            <td>
+                                <ul class="m-0 ps-3 small text-secondary">
+                                    <li th:each="sub : ${app.appliedSubjects}" th:text="${sub.subjectCode} + ' - ' + ${sub.subjectName}"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <span th:if="${app.status == 'PENDING'}" class="badge-status pending">Pending</span>
+                                <span th:if="${app.status == 'APPROVED'}" class="badge-status approved">Approved</span>
+                                <span th:if="${app.status == 'REJECTED'}" class="badge-status rejected">Rejected</span>
+                            </td>
+                            <td class="text-end">
+                                <a th:if="${app.status == 'APPROVED'}" th:href="@{/hall-ticket(id=${app.id})}" target="_blank" class="btn btn-sm btn-vtu-primary">
+                                    🖨️ Print Hall Ticket
+                                </a>
+                                <span th:if="${app.status == 'PENDING'}" class="small text-secondary fw-semibold">Awaiting Coordinator Approval</span>
+                                <span th:if="${app.status == 'REJECTED'}" class="small text-danger fw-semibold">Registration Rejected</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
