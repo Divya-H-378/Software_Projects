@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Exam - Login</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="login-box">
+  <h2>Online Exam Portal</h2>
+
+  <p th:if="${error}" th:text="${error}" style="color:red; text-align:center;"></p>
+
+  <form th:action="@{/login}" method="post">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+</div>
+</body>
+</html>

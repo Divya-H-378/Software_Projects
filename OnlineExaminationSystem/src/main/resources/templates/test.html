@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${test.title}">Test</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <h2 th:text="${test.title}">Test Title</h2>
+        <div id="timer" class="timer-box">--:--</div>
+    </header>
+
+    <form id="examForm" th:action="@{'/test/submit/' + ${test.id}}" method="post">
+
+        <div class="question-block" th:each="q, iterStat : ${questions}">
+            <h4 th:text="${iterStat.count} + '. ' + ${q.questionText}">Question</h4>
+
+            <label>
+                <input type="radio" th:name="'question_' + ${q.id}" value="A" required> A) <span th:text="${q.optionA}"></span>
+            </label><br>
+            <label>
+                <input type="radio" th:name="'question_' + ${q.id}" value="B"> B) <span th:text="${q.optionB}"></span>
+            </label><br>
+            <label>
+                <input type="radio" th:name="'question_' + ${q.id}" value="C"> C) <span th:text="${q.optionC}"></span>
+            </label><br>
+            <label>
+                <input type="radio" th:name="'question_' + ${q.id}" value="D"> D) <span th:text="${q.optionD}"></span>
+            </label>
+        </div>
+
+        <button type="submit" class="start-btn">Submit Test</button>
+    </form>
+</div>
+
+<!-- Pass the duration (in minutes) from Thymeleaf into JS -->
+<script th:inline="javascript">
+    const durationMinutes = /*[[${test.duration}]]*/ 30;
+</script>
+<script th:src="@{/script.js}"></script>
+</body>
+</html>

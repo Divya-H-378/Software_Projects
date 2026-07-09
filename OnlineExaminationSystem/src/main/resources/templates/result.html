@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="login-box" style="width:400px; text-align:center;">
+    <h2 th:text="${result.testTitle}">Test Title</h2>
+    <p style="font-size:18px;">
+        You scored
+        <strong th:text="${result.score}">0</strong> / <span th:text="${result.totalQuestions}">0</span>
+    </p>
+    <a th:href="@{/dashboard}" class="start-btn">Back to Dashboard</a>
+</div>
+</body>
+</html>

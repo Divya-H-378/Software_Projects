@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+    <div>
+      <a th:href="@{/admin/results}" class="start-btn" style="margin-right:10px;">View All Results</a>
+      <a th:href="@{/logout}" class="logout-btn">Logout</a>
+    </div>
+  </header>
+
+  <a th:href="@{/admin/test/add}" class="start-btn">+ Add New Test</a>
+
+  <h3 style="margin-top:20px;">All Tests</h3>
+
+  <div class="test-list">
+    <div class="test-card" th:each="test : ${tests}">
+      <div>
+        <h4 th:text="${test.title}">Test Title</h4>
+        <p th:text="'Duration: ' + ${test.duration} + ' mins'">Duration</p>
+      </div>
+      <a th:href="@{'/admin/question/add/' + ${test.id}}" class="start-btn">Add Questions</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

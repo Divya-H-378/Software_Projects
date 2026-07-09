@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Results</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <h2>All Student Results</h2>
+        <a th:href="@{/admin/dashboard}" class="logout-btn">Back to Dashboard</a>
+    </header>
+
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+        <tr style="background:#2b6cb0; color:white;">
+            <th style="padding:10px; text-align:left;">Student</th>
+            <th style="padding:10px; text-align:left;">Test</th>
+            <th style="padding:10px; text-align:left;">Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${results}" style="border-bottom:1px solid #eee;">
+            <td style="padding:10px;" th:text="${r.studentUsername}">student1</td>
+            <td style="padding:10px;" th:text="${r.testTitle}">Test</td>
+            <td style="padding:10px;" th:text="${r.score} + ' / ' + ${r.totalQuestions}">Score</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${#lists.isEmpty(results)}" style="margin-top:20px;">No results yet.</p>
+</div>
+</body>
+</html>

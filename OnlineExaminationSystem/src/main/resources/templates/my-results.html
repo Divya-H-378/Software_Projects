@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Results</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <h2>My Test Results</h2>
+        <a th:href="@{/dashboard}" class="logout-btn">Back to Dashboard</a>
+    </header>
+
+    <div class="test-list">
+        <div class="test-card" th:each="r : ${results}">
+            <div>
+                <h4 th:text="${r.testTitle}">Test Title</h4>
+                <p th:text="'Score: ' + ${r.score} + ' / ' + ${r.totalQuestions}">Score</p>
+            </div>
+        </div>
+
+        <p th:if="${#lists.isEmpty(results)}">You haven't attempted any tests yet.</p>
+    </div>
+</div>
+</body>
+</html>
